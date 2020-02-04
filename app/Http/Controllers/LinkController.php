@@ -24,7 +24,7 @@ class LinkController extends Controller
      */
     public function __construct(LinkRepository $links)
     {
-
+        //
     }
     /**
      * Create a new link.
@@ -34,7 +34,6 @@ class LinkController extends Controller
      */
     public function store(Request $request)
     {
-        $this->middleware('auth');
         $this->authorize('isPageOwn', Page::find($request->page_id));
 
         $this->validate($request, [
@@ -56,7 +55,7 @@ class LinkController extends Controller
             'color' => $request->color,
             'url' => $url,
             'page_id' => $request->page_id,
-            'order_no' => 99,
+            'order_no' => 1,
         ]);
 
         return redirect()->back();
@@ -72,8 +71,7 @@ class LinkController extends Controller
 
     public function update(Request $request, Link $link)
     {
-        $this->middleware('auth');
-        $this->authorize('DestroyOrUpdate', $link);
+        $this->authorize('isLinkOwn', $link);
 
         $this->validate($request, [
             'name' => 'required|max:255',
@@ -108,8 +106,7 @@ class LinkController extends Controller
      */
     public function destroy(Request $request, Link $link)
     {
-        $this->middleware('auth');
-        $this->authorize('DestroyOrUpdate', $link);
+        $this->authorize('isLinkOwn', $link);
 
         $link->delete();
 
@@ -117,9 +114,24 @@ class LinkController extends Controller
     }
 
     /**
-     * Redirect to link URL with saved statistics
      * @param Request $request
      * @param Link $link
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function stat(Request $request, Link $link)
+    {
+        $this->authorize('isLinkOwn', $link);
+
+        return view('stat.index', [
+            'requests' => $link->stat()->get(),
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Link $link
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function redirect(Request $request, Link $link)
     {

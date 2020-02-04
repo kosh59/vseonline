@@ -11,20 +11,23 @@
 */
 Auth::routes();
 
-Route::group(['middleware' => 'role:project-manager'], function() {
+
     Route::get('/dashboard', function() {
         return 'Добро пожаловать, Менеджер проекта';
     });
-});
+
 
 Route::view('/','frontpage');
 
-Route::get('/mypage', 'PageController@index')->name('mypage')->middleware('auth');
-Route::post('/page', 'PageController@update')->name('page_update')->middleware('auth');
+Route::group(['middleware' => 'auth'], function() {
+    Route::get('/mypage', 'PageController@index')->name('mypage');
+    Route::post('/page', 'PageController@update')->name('page_update');
 
-Route::post('/link/add', 'LinkController@store')->name('link_add');
-Route::put('/link/{link}', 'LinkController@update')->name('link_update');
-Route::delete('/link/{link}', 'LinkController@destroy')->name('link_delete');
+    Route::post('/link/add', 'LinkController@store')->name('link_add');
+    Route::put('/link/{link}', 'LinkController@update')->name('link_update');
+    Route::delete('/link/{link}', 'LinkController@destroy')->name('link_delete');
+    Route::get('/stat/{link}', 'LinkController@stat');
+});
 /**
  * Переадресация по короткой ссылке
  */

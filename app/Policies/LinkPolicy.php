@@ -15,7 +15,7 @@ class LinkPolicy
      * @param Link $link
      * @return bool
      */
-    public function DestroyOrUpdate(User $user, Link $link)
+    public function isLinkOwn(User $user, Link $link)
     {
         return $user->id === $link->user_id;
     }

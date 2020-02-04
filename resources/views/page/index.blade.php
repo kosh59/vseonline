@@ -40,6 +40,7 @@
                     <input type="text" name="value" id="link-value" required class="form-control" value="{{ $link->value }}">
                     <input type="text" name="color" id="link-color" required class="form-control" value="{{ $link->color }}">
                     {{ $link->clicks }}
+                    <a href="/stat/{{ $link->id }}">статистика</a>
                     <button type="submit" class="btn">Сохранить</button>
                 </form>
                 <form action="{{route('link_delete', [$link->id])}}" method="POST">
