@@ -26,7 +26,7 @@ class CreateLinksTable extends Migration
             $table->integer('clicks')->default(0);
             $table->string('color');
             $table->string('url');
-            $table->boolean('visible');
+            $table->boolean('visible')->default(1);
             $table->timestamps();
         });
     }
