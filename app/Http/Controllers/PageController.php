@@ -38,8 +38,8 @@ class PageController extends Controller
         $this->authorize('isPageOwn', $request->user()->page()->first());
 
         $validator = \Validator::make($request->all(), [
-            'name' => 'required|max:4',
-            'url' => 'required|max:4',
+            'name' => 'required|max:44',
+            'url' => 'required|max:44',
 //            'logo' => 'image',
         ]);
 
@@ -50,20 +50,19 @@ class PageController extends Controller
             'url' => $request->url,
         ]);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             return response()->json(['errors'=>$validator->errors()->all()]);
         }
-        return response()->json(['success'=>'Record is successfully added']);
-//        return response()->json(['success'=>'ok']);
+        else {
+            return response()->json(['success'=>'ok']);
+        }
     }
 
     /**
-     * @param Request $request
      * @param Page $page
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show(Request $request, Page $page)
+    public function show(Page $page)
     {
         if ($page->status) {
             return view('page.show', [

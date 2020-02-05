@@ -42,10 +42,10 @@ class LinkController extends Controller
         ]);
 
          switch ($request->type) {
-             case 'vk': //;
-             case 'fb': //;
-             case 'wta': //;
-             case 'lnk': $url = $request->value;
+//             case 'vk': //;break;
+//             case 'fb': //;break;
+             case 'wta': $url = 'https://wa.me/'.$request->value;break;
+             case 'lnk': $url = $request->value;break;
          }
 
         $request->user()->links()->create([
@@ -79,10 +79,8 @@ class LinkController extends Controller
         ]);
 
         switch ($request->type) {
-            case 'vk': //;
-            case 'fb': //;
-            case 'wta': //;
-            case 'lnk': $url = $request->value;
+            case 'wta': $url = 'https://wa.me/'.$request->value;break;
+            case 'lnk': $url = $request->value;break;
         }
         ($request->visible)? $visible = true : $visible =false;
         $link->update([
