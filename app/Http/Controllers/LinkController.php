@@ -95,7 +95,7 @@ class LinkController extends Controller
             'visible' => $visible,
         ]);
 
-        return redirect()->back();
+//        return redirect()->back();
     }
     /**
      * Destroy the given link.
